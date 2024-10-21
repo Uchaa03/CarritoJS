@@ -31,7 +31,7 @@ function extractInfo(e) {
 }
 
 //Deben ser globales para la modficación del carrito
-const cartProducts = [] //Carrito donde agregamos el valor del carrito si no existe
+let cartProducts = [] //Carrito donde agregamos el valor del carrito si no existe
 const cartBody = document.querySelector("#lista-carrito tbody")
 
 
@@ -50,6 +50,31 @@ function addtoCart(imgsrc, name, price){
         productCart.amount += 1:
         cartProducts.push(product)
     emptyCart()
+    showCart()
+}
+
+function emptyCart() {
+    cartBody.innerHTML = "" //Para reescribir el carrito
+}
+
+//Seleccionador de vaciar carrito para vaciarlo.
+const emptyCartButton = document.querySelector("#vaciar-carrito")
+
+emptyCartButton.addEventListener('click', emptyCart)
+
+function deleteProduct(e) {
+    //Seleecionamos el nombre del la tupla mostrada y lo pasamos a borrar al array
+    const trDelete = e.target.parentElement.parentElement
+    const deleteName = trDelete.querySelector("td:nth-child(2)")
+    console.log(cartProducts)
+    cartProducts = cartProducts.filter(product => product.name !== deleteName.textContent) //Filtramos para eliminar el elemento que hemos seleccionado
+    console.log(cartProducts)
+    //Refrescamos el carrito
+    emptyCart()
+    showCart()
+}
+
+function showCart() {
     //Nos quedaria actualizar el carrito cada vez que agreguemos un valor
     cartProducts.forEach(product => {
         //Creamos los elementos a agregar en bucle de manera continua tantos productos haya.
@@ -59,6 +84,14 @@ function addtoCart(imgsrc, name, price){
         const tdname = document.createElement("td")
         const thprice = document.createElement("th")
         const tdamount = document.createElement("td")
+        //Boton para borrar cursos de manera individual
+        const tdButton = document.createElement("td")
+        const pButton = document.createElement("p")
+        pButton.textContent = "X" //Le ponemos un X
+        pButton.onclick = deleteProduct
+        pButton.classList.add("borrar-curso") //Le agregamos la propiedad necesaria para el boton predeterminado
+        tdButton.appendChild(pButton) //Lo agregamos a la tupla
+
         //Les vamos agregando los elementos del objetos
         img.src = product.imgsrc
         img.classList.add("u-full-width") //Añadimos esta propiedad para evitar que la img no se vea bien en la tabla
@@ -71,15 +104,7 @@ function addtoCart(imgsrc, name, price){
         tr.appendChild(tdname)
         tr.appendChild(thprice)
         tr.appendChild(tdamount)
+        tr.appendChild(tdButton)
         cartBody.appendChild(tr) //Agregamos la fila al tbody del carrito
     })
 }
-
-function emptyCart() {
-    cartBody.innerHTML = "" //Para reescribir el carrito
-}
-
-//Seleccionador de vaciar carrito para vaciarlo.
-const emptyCartButton = document.querySelector("#vaciar-carrito")
-
-emptyCartButton.addEventListener('click', emptyCart)

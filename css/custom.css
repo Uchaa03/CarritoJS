@@ -180,3 +180,19 @@ ul {
   margin-bottom: 10px;
   text-decoration: none;
 }
+
+.borrar-curso {
+  background-color: #ff4d4d; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 20px; /* Bordes redondeados */
+  padding: 5px; /* Espaciado interno */
+  margin: 5px; /* Margen alrededor del botón */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  font-size: 20px; /* Tamaño de fuente */
+  transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.borrar-curso:hover {
+  background-color: #ff1a1a; /* Color de fondo al pasar el mouse */
+}
