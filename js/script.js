@@ -12,6 +12,7 @@ cards.addEventListener("click", searchButton)
 
 //Buscamos que cuando ponchemos el boton se ejecute la acción
 function searchButton(e) {
+    e.preventDefault() //Evitar el metodo de envio del boton
     if(e.target.classList.contains("agregar-carrito")) {
         extractInfo(e)
     }
