@@ -1,6 +1,12 @@
 //Seleccionamos la lista de cursos que hay
 const cards = document.querySelector("#lista-cursos")
 
+//Para darle consistencia en navegador
+document.addEventListener("DOMContentLoaded", () => {
+    cartProducts = JSON.parse(localStorage.getItem("carrito")) || [] //Si esta vacio lo deja vacio
+    showCart()
+})
+
 //Para seleccionar el boton
 cards.addEventListener("click", searchButton)
 
@@ -31,7 +37,7 @@ function extractInfo(e) {
 }
 
 //Deben ser globales para la modficación del carrito
-let cartProducts = [] //Carrito donde agregamos el valor del carrito si no existe
+let cartProducts = []
 const cartBody = document.querySelector("#lista-carrito tbody")
 
 
@@ -49,6 +55,7 @@ function addtoCart(imgsrc, name, price){
     productCart?
         productCart.amount += 1:
         cartProducts.push(product)
+    updateLocalSotore()
     emptyCart()
     showCart()
 }
@@ -70,6 +77,7 @@ function deleteProduct(e) {
     cartProducts = cartProducts.filter(product => product.name !== deleteName.textContent) //Filtramos para eliminar el elemento que hemos seleccionado
     console.log(cartProducts)
     //Refrescamos el carrito
+    updateLocalSotore()
     emptyCart()
     showCart()
 }
@@ -107,4 +115,12 @@ function showCart() {
         tr.appendChild(tdButton)
         cartBody.appendChild(tr) //Agregamos la fila al tbody del carrito
     })
+}
+
+
+//Función para actualizar el localStorage
+function updateLocalSotore() {
+    //Cada vez que agreguemos al carrito limpiara el localStorage y lo subira limpio.
+    const cartProductString = JSON.stringify(cartProducts)
+    localStorage.setItem("carrito", cartProductString)
 }
